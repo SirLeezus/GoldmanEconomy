@@ -17,7 +17,6 @@ public class Economy extends JavaPlugin {
         this.databaseManager = new DatabaseManager(this);
         this.cacheManager = new CacheManager(this, databaseManager);
         databaseManager.initialize(false);
-
         registerListeners();
     }
 
