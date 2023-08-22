@@ -4,6 +4,10 @@ import java.util.UUID;
 
 public class EcoAPI {
 
+    public static boolean hasPlayerData(UUID uuid) {
+        return Economy.getInstance().getCacheManager().getCachePlayers().hasPlayerData(uuid);
+    }
+
     public static double getBalance(UUID uuid) {
         if (!Economy.getInstance().getCacheManager().getCachePlayers().hasPlayerData(uuid)) return 0;
         else return Economy.getInstance().getCacheManager().getCachePlayers().getBalance(uuid);
