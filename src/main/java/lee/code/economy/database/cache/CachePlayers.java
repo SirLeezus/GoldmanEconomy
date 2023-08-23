@@ -5,8 +5,10 @@ import lee.code.economy.database.DatabaseManager;
 import lee.code.economy.database.handlers.DatabaseHandler;
 import lee.code.economy.database.tables.PlayerTable;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class CachePlayers extends DatabaseHandler {
 
@@ -76,5 +78,14 @@ public class CachePlayers extends DatabaseHandler {
     public double getBalance(UUID uuid) {
         if (!balanceCache.containsKey(uuid)) return 0;
         return balanceCache.get(uuid).get();
+    }
+
+    public Map<UUID, Double> getBalances() {
+        return balanceCache.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().get()
+                ));
     }
 }

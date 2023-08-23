@@ -1,5 +1,6 @@
 package lee.code.economy;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class EcoAPI {
@@ -26,6 +27,10 @@ public class EcoAPI {
     public static void removeBalance(UUID uuid, double amount) {
         if (!Economy.getInstance().getCacheManager().getCachePlayers().hasPlayerData(uuid)) return;
         Economy.getInstance().getCacheManager().getCachePlayers().removeBalance(uuid, amount);
+    }
+
+    public static Map<UUID, Double> getBalances() {
+        return Economy.getInstance().getCacheManager().getCachePlayers().getBalances();
     }
 }
 
