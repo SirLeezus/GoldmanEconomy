@@ -10,8 +10,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import lee.code.economy.Economy;
 import lee.code.economy.database.tables.PlayerTable;
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -21,8 +19,6 @@ public class DatabaseManager {
 
     private final Economy economy;
     private Dao<PlayerTable, String> playerDao;
-
-    @Getter(AccessLevel.NONE)
     private ConnectionSource connectionSource;
 
     public DatabaseManager(Economy economy) {
