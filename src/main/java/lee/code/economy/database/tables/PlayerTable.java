@@ -13,13 +13,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @DatabaseTable(tableName = "players")
 public class PlayerTable {
-    @DatabaseField(id = true, canBeNull = false)
-    private UUID uniqueId;
+  @DatabaseField(id = true, canBeNull = false)
+  private UUID uniqueId;
 
-    @DatabaseField(columnName = "balance")
-    private double balance;
+  @DatabaseField(columnName = "balance")
+  private double balance;
 
-    public PlayerTable(UUID uniqueId) {
-        this.uniqueId = uniqueId;
-    }
+  public PlayerTable(UUID uniqueId) {
+    this.uniqueId = uniqueId;
+  }
 }

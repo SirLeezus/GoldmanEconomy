@@ -6,17 +6,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinListener implements Listener {
+  private final Economy economy;
 
-    private final Economy economy;
+  public JoinListener(Economy economy) {
+    this.economy = economy;
+  }
 
-    public JoinListener(Economy economy) {
-        this.economy = economy;
+  @EventHandler
+  public void onJoin(PlayerJoinEvent e) {
+    if (!economy.getCacheManager().getCachePlayers().hasPlayerData(e.getPlayer().getUniqueId())) {
+      economy.getCacheManager().getCachePlayers().createPlayerData(e.getPlayer().getUniqueId());
     }
-
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        if (!economy.getCacheManager().getCachePlayers().hasPlayerData(e.getPlayer().getUniqueId())) {
-            economy.getCacheManager().getCachePlayers().createPlayerData(e.getPlayer().getUniqueId());
-        }
-    }
+  }
 }

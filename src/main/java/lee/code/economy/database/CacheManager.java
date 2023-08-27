@@ -5,13 +5,12 @@ import lee.code.economy.database.cache.CachePlayers;
 import lombok.Getter;
 
 public class CacheManager {
+  private final Economy economy;
 
-    private final Economy economy;
+  @Getter private final CachePlayers cachePlayers;
 
-    @Getter private final CachePlayers cachePlayers;
-
-    public CacheManager(Economy economy, DatabaseManager databaseManager) {
-        this.economy = economy;
-        this.cachePlayers = new CachePlayers(databaseManager);
-    }
+  public CacheManager(Economy economy, DatabaseManager databaseManager) {
+    this.economy = economy;
+    this.cachePlayers = new CachePlayers(databaseManager);
+  }
 }
