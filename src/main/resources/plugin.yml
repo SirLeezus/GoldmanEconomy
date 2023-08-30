@@ -1,6 +1,6 @@
 name: GoldmanEconomy
 version: ${version}
 main: lee.code.economy.Economy
-api-version: 1.19
+api-version: 1.20
 author: Lee
 folia-supported: true
