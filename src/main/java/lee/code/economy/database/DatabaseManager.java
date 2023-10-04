@@ -14,10 +14,12 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class DatabaseManager {
   private final Economy economy;
-  private Dao<PlayerTable, String> playerDao;
+  private final Object synchronizedThreadLock = new Object();
+  private Dao<PlayerTable, UUID> playerDao;
   private ConnectionSource connectionSource;
 
   public DatabaseManager(Economy economy) {
@@ -25,7 +27,6 @@ public class DatabaseManager {
   }
 
   private String getDatabaseURL() {
-    //Setup MongoDB
     if (!economy.getDataFolder().exists()) economy.getDataFolder().mkdir();
     return "jdbc:sqlite:" + new File(economy.getDataFolder(), "database.db");
   }
@@ -65,33 +66,39 @@ public class DatabaseManager {
     }
   }
 
-  public synchronized void createPlayerTable(PlayerTable playerTable) {
-    Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
-      try {
-        playerDao.createIfNotExists(playerTable);
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    });
+  public void createPlayerTable(PlayerTable playerTable) {
+    synchronized (synchronizedThreadLock) {
+      Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
+        try {
+          playerDao.createIfNotExists(playerTable);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    }
   }
 
-  public synchronized void updatePlayerTable(PlayerTable playerTable) {
-    Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
-      try {
-        playerDao.update(playerTable);
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    });
+  public void updatePlayerTable(PlayerTable playerTable) {
+    synchronized (synchronizedThreadLock) {
+      Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
+        try {
+          playerDao.update(playerTable);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    }
   }
 
-  public synchronized void deletePlayerTable(PlayerTable playerTable) {
-    Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
-      try {
-        playerDao.delete(playerTable);
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    });
+  public void deletePlayerTable(PlayerTable playerTable) {
+    synchronized (synchronizedThreadLock) {
+      Bukkit.getAsyncScheduler().runNow(economy, scheduledTask -> {
+        try {
+          playerDao.delete(playerTable);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    }
   }
 }
